@@ -1,7 +1,6 @@
 import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
 import { Swagger2HarV2 } from "./Swagger2HarV2";
 import { Swagger2HarV3 } from "./Swagger2HarV3";
-import { Swagger2HarV3_1 } from "./Swagger2HarV3_1";
 
 export interface Param {
     name: string

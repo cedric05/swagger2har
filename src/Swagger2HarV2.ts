@@ -96,12 +96,13 @@ export function getHeaderQueryBodyUrlFromParams(params: OpenAPIV2.Parameters, co
  * @param config - The OpenAPIv2 document.
  * @returns The HAR object representing the API request.
  */
-function covertOpenApi2MethodObjectToHarObject(method: keyof OpenAPIV2.PathItemObject, pathObj: OpenAPIV2.PathItemObject<{}>, baseUrl: string, path: string, config: OpenAPIV2.Document<{}>) {
+function covertOpenApi2MethodObjectToHarObject(method: keyof OpenAPIV2.PathItemObject, pathObj: OpenAPIV2.PathItemObject<{}>, baseUrl: string, path: string, parameters: OpenAPIV2.Parameters, config: OpenAPIV2.Document<{}>) {
     const methodObj = pathObj[method] as OpenAPIV2.OperationObject; // get the method object
     var url = `${baseUrl}${path}`;
 
     // get params object, try to figure out the query params
     const params = methodObj.parameters ?? [];
+    params.push(...parameters);
     let headersParams: Array<Param> | undefined;
     let queryParams: Array<Param> | undefined;
     var postData;
@@ -135,8 +136,12 @@ export function Swagger2HarV2(config: OpenAPIV2.Document) {
 
     Object.keys(config.paths).forEach((path) => {
         const pathObj = config.paths[path];
+        const parameters = pathObj.parameters ?? [];
         Object.keys(pathObj).forEach((method) => {
-            hars.push(covertOpenApi2MethodObjectToHarObject(method as keyof OpenAPIV2.PathItemObject, pathObj, baseUrl, path, config));
+            if (method === "parameters") {
+                return;
+            }
+            hars.push(covertOpenApi2MethodObjectToHarObject(method as keyof OpenAPIV2.PathItemObject, pathObj, baseUrl, path, parameters, config));
         });
     });
 
