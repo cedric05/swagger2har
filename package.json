@@ -1,0 +1,19 @@
+{
+  "name": "swagger2har",
+  "version": "1.0.0",
+  "description": "converts swagger into har ",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "json-schema-instantiator": "^1.0.0",
+    "openapi-types": "^12.1.3"
+  }
+}
